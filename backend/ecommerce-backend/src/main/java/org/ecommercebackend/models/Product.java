@@ -1,17 +1,38 @@
-package org.ecommerceshop.ecommercebackend.models;
+package org.ecommercebackend.models;
+
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "Product")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id")
     private Long id;
+    @Column(name = "product_name")
     private String name;
     private String description;
     private String category;
     private String color;
     private BigDecimal price;
+    @Column(name = "product_size")
     private String size;
     private String imageUrl;
+
+    public Product() {}
+
+    public Product(String name, String description, String category, String color, BigDecimal price, String size, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.color = color;
+        this.price = price;
+        this.size = size;
+        this.imageUrl = imageUrl;
+    }
 
     public Long getId() {
         return id;
@@ -75,5 +96,19 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
+                ", color='" + color + '\'' +
+                ", price=" + price +
+                ", size='" + size + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
     }
 }
