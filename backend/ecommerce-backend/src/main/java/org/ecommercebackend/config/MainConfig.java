@@ -4,6 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories("org.ecommercebackend.repositories")
+@EnableJpaRepositories(basePackages = {"org.ecommercebackend.repositories", "org.ecommercebackend.security"})
 public class MainConfig {
 }

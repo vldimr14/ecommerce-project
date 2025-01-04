@@ -4,6 +4,8 @@ import org.ecommercebackend.models.Product;
 import org.ecommercebackend.requests.ProductRequest;
 import org.ecommercebackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,28 +22,29 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public Product addProduct(@RequestBody ProductRequest productRequest) {
-        return productService.saveProduct(productRequest);
+    public ResponseEntity<Product> addProduct(@RequestBody ProductRequest productRequest) {
+        return new ResponseEntity<>(productService.saveProduct(productRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("/product/{id}")
-    public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id);
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
     }
 
     @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @PutMapping("/products/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
-        return productService.updateProduct(id, productRequest);
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+        return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.CREATED);
     }
 
     @Transactional
     @DeleteMapping("/product/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         productService.deleteProductById(id);
+        return new ResponseEntity<>("Product has been successfully deleted.", HttpStatus.NO_CONTENT);
     }
 }
