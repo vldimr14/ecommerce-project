@@ -6,10 +6,7 @@ import org.ecommercebackend.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,10 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<Order> createOrder(@RequestParam Long customerId, @RequestBody List<OrderRequest> orderRequest) {
         return new ResponseEntity<>(orderService.create(customerId, orderRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/order/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
+        return new ResponseEntity<>(orderService.getOrder(id), HttpStatus.OK);
     }
 }

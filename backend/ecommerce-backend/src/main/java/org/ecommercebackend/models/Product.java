@@ -1,6 +1,5 @@
 package org.ecommercebackend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

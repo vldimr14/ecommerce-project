@@ -1,10 +1,8 @@
 package org.ecommercebackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Entity
 public class OrderProduct {
