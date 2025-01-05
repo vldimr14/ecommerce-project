@@ -26,6 +26,7 @@ public class ProductService {
         product.setColor(productRequest.getColor());
         product.setDescription(productRequest.getDescription());
         product.setPrice(productRequest.getPrice());
+        product.setStockQuantity(productRequest.getStockQuantity());
         product.setSize(productRequest.getSize());
         product.setImageUrl(productRequest.getImageUrl());
 
@@ -33,7 +34,7 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        return productRepository.findProductById(id);
+        return productRepository.findProductById(id).orElseThrow(() -> new RuntimeException("Product not found!"));
     }
 
     public List<Product> getAllProducts() {
@@ -41,12 +42,13 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, ProductRequest productRequest) {
-        Product product = productRepository.findProductById(id);
+        Product product = productRepository.findProductById(id).orElseThrow(() -> new RuntimeException("Product not found!"));
 
         product.setName(productRequest.getName());
         product.setSize(productRequest.getSize());
         product.setCategory(productRequest.getCategory());
         product.setPrice(productRequest.getPrice());
+        product.setStockQuantity(productRequest.getStockQuantity());
         product.setDescription(productRequest.getDescription());
         product.setColor(productRequest.getColor());
         product.setImageUrl(productRequest.getImageUrl());

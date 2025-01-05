@@ -8,18 +8,20 @@ public class ProductRequest {
     private String category;
     private String color;
     private BigDecimal price;
+    private int stockQuantity;
     private String size;
     private String imageUrl;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(String name, String description, String category, String color, BigDecimal price, String size, String imageUrl) {
+    public ProductRequest(String name, String description, String category, String color, BigDecimal price, int stockQuantity, String size, String imageUrl) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.color = color;
         this.price = price;
+        this.stockQuantity = stockQuantity;
         this.size = size;
         this.imageUrl = imageUrl;
     }
@@ -62,6 +64,14 @@ public class ProductRequest {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public String getSize() {

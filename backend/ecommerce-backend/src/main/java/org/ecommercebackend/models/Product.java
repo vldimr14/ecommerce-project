@@ -1,8 +1,11 @@
 package org.ecommercebackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Product")
@@ -18,18 +21,23 @@ public class Product {
     private String category;
     private String color;
     private BigDecimal price;
+    private Integer stockQuantity;
     @Column(name = "product_size")
     private String size;
     private String imageUrl;
 
+    @OneToMany(mappedBy = "product")
+    private List<OrderProduct> orderProducts = new ArrayList<>();
+
     public Product() {}
 
-    public Product(String name, String description, String category, String color, BigDecimal price, String size, String imageUrl) {
+    public Product(String name, String description, String category, String color, BigDecimal price, int stockQuantity, String size, String imageUrl) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.color = color;
         this.price = price;
+        this.stockQuantity = stockQuantity;
         this.size = size;
         this.imageUrl = imageUrl;
     }
@@ -96,6 +104,22 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(Integer stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package org.ecommercebackend.security;
 
 import jakarta.persistence.*;
+import org.ecommercebackend.models.Order;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -8,6 +11,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
     private String username;
     private String password;
@@ -15,6 +19,10 @@ public class User {
 
     private String firstName;
     private String lastName;
+    private String address;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 
     public User() {}
 
@@ -24,12 +32,13 @@ public class User {
         this.roles = roles;
     }
 
-    public User(String username, String password, String roles, String firstName, String lastName) {
+    public User(String username, String password, String roles, String firstName, String lastName, String address) {
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
     }
 
     public Long getId() {
@@ -78,5 +87,13 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
