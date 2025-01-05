@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,8 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(@RequestParam Long customerId, @RequestBody List<OrderRequest> orderRequest) {
-        return new ResponseEntity<>(orderService.create(customerId, orderRequest), HttpStatus.CREATED);
+    public ResponseEntity<Order> createOrder(Principal principal, @RequestBody List<OrderRequest> orderRequest) {
+        return new ResponseEntity<>(orderService.create(principal, orderRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/order/{id}")

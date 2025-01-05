@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +41,8 @@ public class OrderService {
         return order.orElse(null);
     }
 
-    public Order create(Long customerId, List<OrderRequest> orderRequests) {
-        User user = userRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found!"));
+    public Order create(Principal principal, List<OrderRequest> orderRequests) {
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("Customer not found!"));
 
         Order order = new Order();
         order.setDateCreated(LocalDate.now());
