@@ -56,14 +56,19 @@ public class OrderService {
                 throw new RuntimeException("Not enough stock for product: " + product.getName());
             }
 
-            OrderProduct orderProduct = new OrderProduct(order, product, request.getQuantity(), product.getPrice());
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setOrder(order);
+            orderProduct.setProduct(product);
+            orderProduct.setPrice(product.getPrice());
+            orderProduct.setQuantity(request.getQuantity());
 
+            // Update stock quantity
             product.setStockQuantity(product.getStockQuantity() - request.getQuantity());
             productRepository.save(product);
 
             order.getOrderProducts().add(orderProduct);
 
-            totalAmount.add(product.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())));
+            totalAmount = totalAmount.add(product.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())));
         }
 
         order.setTotalPrice(totalAmount);
