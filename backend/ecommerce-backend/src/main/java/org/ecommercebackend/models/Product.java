@@ -1,5 +1,6 @@
 package org.ecommercebackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ public class Product {
     private String imageUrl;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public Product() {}
@@ -113,6 +115,7 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
+    @JsonIgnore
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
