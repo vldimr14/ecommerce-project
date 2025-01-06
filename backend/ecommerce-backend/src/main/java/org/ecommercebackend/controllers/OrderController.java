@@ -22,8 +22,8 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(Principal principal, @RequestBody List<OrderRequest> orderRequest) {
-        return new ResponseEntity<>(orderService.create(principal, orderRequest), HttpStatus.CREATED);
+    public ResponseEntity<Order> createOrder(Principal principal, @RequestBody List<OrderRequest> orderRequest, @RequestParam(required = false) String promoCode) {
+        return new ResponseEntity<>(orderService.create(principal, orderRequest, promoCode), HttpStatus.CREATED);
     }
 
     @GetMapping("/order/{id}")

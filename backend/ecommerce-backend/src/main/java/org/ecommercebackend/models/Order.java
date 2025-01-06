@@ -32,6 +32,11 @@ public class Order {
 
     private BigDecimal totalPrice;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promo_code_id")
+    @JsonIgnore
+    private PromoCode promoCode;
+
     public Order() {}
 
     public Order(String status, LocalDate dateCreated, User customer, List<OrderProduct> orderProducts, BigDecimal totalPrice) {
@@ -88,5 +93,13 @@ public class Order {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public PromoCode getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(PromoCode promoCode) {
+        this.promoCode = promoCode;
     }
 }
