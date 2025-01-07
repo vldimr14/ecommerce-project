@@ -1,5 +1,6 @@
 package org.ecommercebackend.controllers;
 
+import org.ecommercebackend.dtos.ProductDTO;
 import org.ecommercebackend.models.Product;
 import org.ecommercebackend.requests.ProductRequest;
 import org.ecommercebackend.service.ProductService;
@@ -22,22 +23,22 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Product> addProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductRequest productRequest) {
         return new ResponseEntity<>(productService.saveProduct(productRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.CREATED);
     }
 

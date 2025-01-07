@@ -1,5 +1,11 @@
 package org.ecommercebackend.service;
 
+import org.ecommercebackend.dtos.OrderDTO;
+import org.ecommercebackend.dtos.OrderMapper;
+import org.ecommercebackend.exceptions.NotEnoughStockException;
+import org.ecommercebackend.exceptions.OrderNotFoundException;
+import org.ecommercebackend.exceptions.ProductNotFoundException;
+import org.ecommercebackend.exceptions.UserNotFoundException;
 import org.ecommercebackend.models.Order;
 import org.ecommercebackend.models.OrderProduct;
 import org.ecommercebackend.models.Product;
@@ -11,11 +17,13 @@ import org.ecommercebackend.requests.OrderRequest;
 import org.ecommercebackend.security.User;
 import org.ecommercebackend.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,20 +46,29 @@ public class OrderService {
         this.promoCodeRepository = promoCodeRepository;
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<OrderDTO> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        List<OrderDTO> dtos = new ArrayList<>();
+
+        for (Order order : orders) {
+            dtos.add(OrderMapper.toOrderDTO(order));
+        }
+
+        return dtos;
     }
 
-    public Order getOrder(Long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!"));
+    public OrderDTO getOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException("Order not found!"));
+        return OrderMapper.toOrderDTO(order);
     }
 
-    public Order create(Principal principal, List<OrderRequest> orderRequests, String promoCodeString) {
-        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("Customer not found!"));
+    public OrderDTO create(Principal principal, List<OrderRequest> orderRequests, String promoCodeString) {
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new UserNotFoundException("Customer not found!"));
 
         Order order = new Order();
         order.setDateCreated(LocalDate.now());
         order.setCustomer(user);
+        order.setStatus("Created");
 
         PromoCode promoCode = null;
 
@@ -67,10 +84,10 @@ public class OrderService {
         BigDecimal totalAmount = BigDecimal.valueOf(0.0);
 
         for (OrderRequest request: orderRequests) {
-            Product product = productRepository.findProductById(request.getProductId()).orElseThrow(() -> new RuntimeException("Product not found!"));
+            Product product = productRepository.findProductById(request.getProductId()).orElseThrow(() -> new ProductNotFoundException("Product not found!"));
 
             if (product.getStockQuantity() < request.getQuantity()) {
-                throw new RuntimeException("Not enough stock for product: " + product.getName());
+                throw new NotEnoughStockException("Not enough stock for product: " + product.getName());
             }
 
             OrderProduct orderProduct = new OrderProduct();
@@ -98,10 +115,13 @@ public class OrderService {
 
         order.setTotalPrice(totalAmount);
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+
+        return OrderMapper.toOrderDTO(savedOrder);
     }
 
-    public Order update(Order order) {
-        return orderRepository.save(order);
+    public OrderDTO update(Order order) {
+        Order updatedOrder = orderRepository.save(order);
+        return OrderMapper.toOrderDTO(updatedOrder);
     }
 }

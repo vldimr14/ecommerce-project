@@ -1,5 +1,6 @@
 package org.ecommercebackend.service;
 
+import org.ecommercebackend.exceptions.EmailAlreadyUsedException;
 import org.ecommercebackend.requests.RegisterRequest;
 import org.ecommercebackend.security.User;
 import org.ecommercebackend.security.UserRepository;
@@ -21,7 +22,7 @@ public class RegisterService {
 
     public String register(RegisterRequest registerRequest) {
         if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
-            return "Error. Account with this email already exists";
+            throw new EmailAlreadyUsedException("Account with this email already exists");
         }
 
         User user = new User();

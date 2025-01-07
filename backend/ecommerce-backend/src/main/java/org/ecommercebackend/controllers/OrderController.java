@@ -1,5 +1,6 @@
 package org.ecommercebackend.controllers;
 
+import org.ecommercebackend.dtos.OrderDTO;
 import org.ecommercebackend.models.Order;
 import org.ecommercebackend.requests.OrderRequest;
 import org.ecommercebackend.service.OrderService;
@@ -22,12 +23,12 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(Principal principal, @RequestBody List<OrderRequest> orderRequest, @RequestParam(required = false) String promoCode) {
+    public ResponseEntity<OrderDTO> createOrder(Principal principal, @RequestBody List<OrderRequest> orderRequest, @RequestParam(required = false) String promoCode) {
         return new ResponseEntity<>(orderService.create(principal, orderRequest, promoCode), HttpStatus.CREATED);
     }
 
     @GetMapping("/order/{id}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long id) {
+    public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
         return new ResponseEntity<>(orderService.getOrder(id), HttpStatus.OK);
     }
 }
