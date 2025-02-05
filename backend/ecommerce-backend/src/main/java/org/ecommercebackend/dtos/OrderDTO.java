@@ -12,6 +12,8 @@ public class OrderDTO {
     private BigDecimal totalPrice;
     private String address;
     private String contactPhoneNumber;
+    private Boolean paid;
+    private String deliveryMethod;
 
     public Long getId() {
         return id;
@@ -75,5 +77,21 @@ public class OrderDTO {
 
     public void setContactPhoneNumber(String contactPhoneNumber) {
         this.contactPhoneNumber = contactPhoneNumber;
+    }
+
+    public Boolean getPaid() {
+        return paid;
+    }
+
+    public void setPaid(Boolean paid) {
+        this.paid = paid;
+    }
+
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
     }
 }

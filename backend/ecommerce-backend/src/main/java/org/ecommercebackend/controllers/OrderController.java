@@ -23,8 +23,13 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<OrderDTO> createOrder(Principal principal, @RequestBody List<OrderRequest> orderRequest, @RequestParam(required = false) String promoCode) {
-        return new ResponseEntity<>(orderService.create(principal, orderRequest, promoCode), HttpStatus.CREATED);
+    public ResponseEntity<OrderDTO> createOrder(Principal principal,
+                                                @RequestBody List<OrderRequest> orderRequest,
+                                                @RequestParam(required = false) String promoCode,
+                                                @RequestParam(required = true) String address,
+                                                @RequestParam(required = true) String contactPhoneNumber,
+                                                @RequestParam(required = true) String deliveryMethod) {
+        return new ResponseEntity<>(orderService.create(principal, orderRequest, promoCode, address, contactPhoneNumber, deliveryMethod), HttpStatus.CREATED);
     }
 
     @GetMapping("/order/{id}")

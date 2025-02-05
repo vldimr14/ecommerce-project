@@ -38,6 +38,8 @@ public class Order {
 
     private String contactPhoneNumber;
 
+    private String deliveryMethod;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promo_code_id")
     @JsonIgnore
@@ -123,6 +125,14 @@ public class Order {
 
     public void setContactPhoneNumber(String contactPhoneNumber) {
         this.contactPhoneNumber = contactPhoneNumber;
+    }
+
+    public String getDeliveryMethod() {
+        return deliveryMethod;
+    }
+
+    public void setDeliveryMethod(String deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
     }
 
     public PromoCode getPromoCode() {

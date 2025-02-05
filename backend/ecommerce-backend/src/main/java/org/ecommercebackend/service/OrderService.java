@@ -62,7 +62,12 @@ public class OrderService {
         return OrderMapper.toOrderDTO(order);
     }
 
-    public OrderDTO create(Principal principal, List<OrderRequest> orderRequests, String promoCodeString) {
+    public OrderDTO create(Principal principal,
+                           List<OrderRequest> orderRequests,
+                           String promoCodeString,
+                           String address,
+                           String contactPhoneNumber,
+                           String deliveryMethod) {
         User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new UserNotFoundException("Customer not found!"));
 
         Order order = new Order();
@@ -114,6 +119,11 @@ public class OrderService {
         }
 
         order.setTotalPrice(totalAmount);
+
+        order.setAddress(address);
+        order.setPaid(false);
+        order.setDeliveryMethod(deliveryMethod);
+        order.setContactPhoneNumber(contactPhoneNumber);
 
         Order savedOrder = orderRepository.save(order);
 

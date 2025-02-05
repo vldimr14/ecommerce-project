@@ -16,6 +16,10 @@ public class OrderMapper {
         dto.setTotalPrice(order.getTotalPrice());
         dto.setOrderProducts(order.getOrderProducts().stream().map(OrderMapper::toOrderProductDTO)
                 .collect(Collectors.toList()));
+        dto.setPaid(order.isPaid());
+        dto.setDeliveryMethod(order.getDeliveryMethod());
+        dto.setContactPhoneNumber(order.getContactPhoneNumber());
+        dto.setAddress(order.getAddress());
 
         if (order.getPromoCode() != null) {
             dto.setPromoCode(toPromoCodeDTO(order.getPromoCode()));
