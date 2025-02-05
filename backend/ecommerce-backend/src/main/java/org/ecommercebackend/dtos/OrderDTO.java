@@ -10,6 +10,8 @@ public class OrderDTO {
     private List<OrderProductDTO> orderProducts;
     private PromoCodeDTO promoCode;
     private BigDecimal totalPrice;
+    private String address;
+    private String contactPhoneNumber;
 
     public Long getId() {
         return id;
@@ -57,5 +59,21 @@ public class OrderDTO {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactPhoneNumber() {
+        return contactPhoneNumber;
+    }
+
+    public void setContactPhoneNumber(String contactPhoneNumber) {
+        this.contactPhoneNumber = contactPhoneNumber;
     }
 }
