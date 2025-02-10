@@ -2,9 +2,9 @@
 
 import React, {useState, useEffect} from "react";
 
-import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
 
@@ -19,15 +19,21 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-white text-black font-lato">
       <Header />
-      <h1>All products</h1>
+      <h1 className="text-4xl font-[700] m-10">All products</h1>
 
-      <ul>
-        {products.map(product => (
-          <li key={product.id}>{product.name}: {product.description}, size - {product.size} - {product.price}$</li>
+      {products == null ? 
+      (<h2>No products.</h2>) : 
+      (<div className="products">
+        <ul className="flex flex-wrap gap-5 m-10">
+          {products.map(product => (
+            <li key={product.key}>
+              <ProductCard product={product} />
+            </li>
         ))}
-      </ul>
+        </ul>
+      </div>)}
 
       <Footer />
     </div>
