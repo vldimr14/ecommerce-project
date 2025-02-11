@@ -25,5 +25,17 @@ body {
 }
 
 @layer components {
-  
+  .btn {
+    color: #ffffff;
+    background-color: var(--primary-text-color);
+    padding: 10px 50px;
+    border: 1px solid var(--primary-text-color);
+    font-weight: 600;
+  }
+
+  .btn:hover {
+    color: var(--primary-text-color);
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+  }
 }
