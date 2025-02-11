@@ -24,7 +24,7 @@ export default function HomePage() {
       <h1 className="text-4xl font-[700] m-10">All products</h1>
 
       {products == null ? 
-      (<h2>No products.</h2>) : 
+      (<h2 className="m-10">Loading...</h2>) : 
       (<div className="products">
         <ul className="flex flex-wrap gap-5 m-10">
           {products.map(product => (
