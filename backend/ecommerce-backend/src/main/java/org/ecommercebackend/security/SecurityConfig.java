@@ -34,7 +34,9 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/products").permitAll()
-                        .requestMatchers("/register").permitAll()
+                        .requestMatchers("/products/**").permitAll()
+                        .requestMatchers("/signup").permitAll()
+                        .requestMatchers("/login").permitAll()
                         .anyRequest().hasRole("ADMIN")
                 )
                 .httpBasic(Customizer.withDefaults())
