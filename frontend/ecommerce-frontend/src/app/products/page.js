@@ -1,9 +1,6 @@
 'use client'
 
 import React, {useState, useEffect} from "react";
-
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 
 export default function HomePage() {
@@ -20,7 +17,6 @@ export default function HomePage() {
 
   return (
     <div className="bg-white text-black font-lato">
-      <Header />
       <h1 className="text-4xl font-[700] m-10">All products</h1>
 
       {products == null ? 
@@ -34,8 +30,6 @@ export default function HomePage() {
         ))}
         </ul>
       </div>)}
-
-      <Footer />
     </div>
   );
 }
