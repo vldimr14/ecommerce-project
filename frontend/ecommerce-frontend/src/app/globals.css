@@ -57,7 +57,19 @@ body {
 
   .categories li:hover {
     color: var(--secondary-text-color);
-    font-weight: 700;
-    transition: all 0.3s ease;
+    border-bottom: 1px solid black;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.1s ease;
+  }
+
+  ul li {
+    cursor: pointer;
+    color: var(--primary-text-color);
+  }
+
+  ul li:hover {
+    color: #8e8e8e;
+    transition: all 0.2s ease;
   }
 }
