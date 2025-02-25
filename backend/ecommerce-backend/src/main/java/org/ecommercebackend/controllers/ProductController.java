@@ -5,6 +5,7 @@ import org.ecommercebackend.models.Product;
 import org.ecommercebackend.requests.ProductRequest;
 import org.ecommercebackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +34,19 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                           @RequestParam(name = "sortBy", required = false) String sortBy) {
+        Integer size = 10;
+        Pageable pageable;
+
+        if (sortBy != null) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+
+        Page<ProductDTO> pageProduct = productService.getAllProducts(pageable);
+        return new ResponseEntity<>(pageProduct.getContent(), HttpStatus.OK);
     }
 
     @PutMapping("/products/{id}")

@@ -7,6 +7,7 @@ import org.ecommercebackend.models.Product;
 import org.ecommercebackend.repositories.ProductRepository;
 import org.ecommercebackend.requests.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,15 +45,15 @@ public class ProductService {
         return ProductMapper.toProductDTO(product);
     }
 
-    public List<ProductDTO> getAllProducts() {
-        List<Product> products = productRepository.findAllProducts();
+    public Page<ProductDTO> getAllProducts(Pageable pageable) {
+        List<Product> products = productRepository.findAll(pageable).toList();
         List<ProductDTO> dtos = new ArrayList<>();
 
         for (Product product : products) {
             dtos.add(ProductMapper.toProductDTO(product));
         }
 
-        return dtos;
+        return new PageImpl<>(dtos, pageable, dtos.size());
     }
 
     public ProductDTO updateProduct(Long id, ProductRequest productRequest) {

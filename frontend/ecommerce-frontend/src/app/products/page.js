@@ -2,13 +2,25 @@
 
 import React, {useState, useEffect} from "react";
 import ProductCard from "@/components/ProductCard";
+import { useSearchParams } from "next/navigation";
 
 export default function HomePage() {
 
   const [products, setProducts] = useState(null);
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page');
+  const sortBy = searchParams.get('sortBy');
+
+  let request;
+
+  if (sortBy !== null) {
+    request = `http://localhost:8080/products?page=${page}&sortBy=${sortBy}`;
+  } else {
+    request = `http://localhost:8080/products?page=${page}`;
+  }
 
   useEffect(() => {
-    fetch('http://localhost:8080/products')
+    fetch(request)
       .then(response => response.json())
       .then(json => setProducts(json))
       .then(json => console.log(json))
