@@ -10,11 +10,14 @@ export default function HomePage() {
   const searchParams = useSearchParams();
   const page = searchParams.get('page');
   const sortBy = searchParams.get('sortBy');
+  const search = searchParams.get('search');
 
   let request;
 
   if (sortBy !== null) {
     request = `http://localhost:8080/products?page=${page}&sortBy=${sortBy}`;
+  } else if (search !== null) {
+    request = `http://localhost:8080/products/search?page=${page}&search=${search}`;
   } else {
     request = `http://localhost:8080/products?page=${page}`;
   }

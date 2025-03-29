@@ -6,8 +6,10 @@ import org.ecommercebackend.exceptions.ProductNotFoundException;
 import org.ecommercebackend.models.Product;
 import org.ecommercebackend.repositories.ProductRepository;
 import org.ecommercebackend.requests.ProductRequest;
+import org.ecommercebackend.specifacations.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,8 +47,25 @@ public class ProductService {
         return ProductMapper.toProductDTO(product);
     }
 
-    public Page<ProductDTO> getAllProducts(Pageable pageable) {
-        List<Product> products = productRepository.findAll(pageable).toList();
+    public Page<ProductDTO> getAllProducts(Pageable pageable, String name, String category) {
+        final Specification<Product> specification =
+                ProductSpecification.filterProduct(name, category);
+
+        List<Product> products = productRepository.findAll(specification, pageable).toList();
+        List<ProductDTO> dtos = new ArrayList<>();
+
+        for (Product product : products) {
+            dtos.add(ProductMapper.toProductDTO(product));
+        }
+
+        return new PageImpl<>(dtos, pageable, dtos.size());
+    }
+
+    public Page<ProductDTO> getSearchedProducts(Pageable pageable, String search) {
+        final Specification<Product> specification =
+                ProductSpecification.searchProduct(search);
+
+        List<Product> products = productRepository.findAll(specification, pageable).toList();
         List<ProductDTO> dtos = new ArrayList<>();
 
         for (Product product : products) {

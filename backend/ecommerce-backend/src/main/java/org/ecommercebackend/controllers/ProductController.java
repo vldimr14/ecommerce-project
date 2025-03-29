@@ -1,7 +1,6 @@
 package org.ecommercebackend.controllers;
 
 import org.ecommercebackend.dtos.ProductDTO;
-import org.ecommercebackend.models.Product;
 import org.ecommercebackend.requests.ProductRequest;
 import org.ecommercebackend.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,9 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts(@RequestParam(name = "page", defaultValue = "0") Integer page,
-                                                           @RequestParam(name = "sortBy", required = false) String sortBy) {
+                                                           @RequestParam(name = "sortBy", required = false) String sortBy,
+                                                           @RequestParam(name = "name", required = false) String name,
+                                                           @RequestParam(name = "category", required = false) String category) {
         Integer size = 10;
         Pageable pageable;
 
@@ -45,7 +46,25 @@ public class ProductController {
             pageable = PageRequest.of(page, size);
         }
 
-        Page<ProductDTO> pageProduct = productService.getAllProducts(pageable);
+        Page<ProductDTO> pageProduct = productService.getAllProducts(pageable, name, category);
+        return new ResponseEntity<>(pageProduct.getContent(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/search")
+    public ResponseEntity<List<ProductDTO>> getSearchedProducts(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                                                           @RequestParam(name = "sortBy", required = false) String sortBy,
+                                                           @RequestParam(name = "search", required = false) String search
+                                                           ) {
+        Integer size = 10;
+        Pageable pageable;
+
+        if (sortBy != null) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+
+        Page<ProductDTO> pageProduct = productService.getSearchedProducts(pageable, search);
         return new ResponseEntity<>(pageProduct.getContent(), HttpStatus.OK);
     }
 
